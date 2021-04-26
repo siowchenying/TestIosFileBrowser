@@ -12,6 +12,9 @@ public class TestNativeFilePicker : MonoBehaviour
     public Button uiButtonTestSingle;
     public Button uiButtonTestMultiple;
 
+    public Button uiButtonTestExportASCII;
+    public Button uiButtonTestExportBIN;
+
     public TMP_InputField uiInputUTI;
 
     // Start is called before the first frame update
@@ -29,6 +32,8 @@ public class TestNativeFilePicker : MonoBehaviour
 
         uiButtonTestSingle.onClick.AddListener(TryIosPickerOneFile);
         uiButtonTestMultiple.onClick.AddListener(TryIosPickerMultipleFiles);
+        uiButtonTestExportASCII.onClick.AddListener(TryIosExportASCII);
+        uiButtonTestExportBIN.onClick.AddListener(TryIosExportBIN);
     }
 
     // Update is called once per frame
@@ -119,6 +124,30 @@ public class TestNativeFilePicker : MonoBehaviour
                     
             }
         }, extensions);
+
+        PrintDebug("Permission result: " + permission);
+    }
+
+    private void TryIosExportASCII()
+    {
+        // Create a dummy text file
+        string filePath = Path.Combine(Application.temporaryCachePath, "test.txt");
+        File.WriteAllText(filePath, "Hello world!");
+
+        // Export the file
+        NativeFilePicker.Permission permission = NativeFilePicker.ExportFile(filePath, (success) => PrintDebug("File exported: " + success));
+
+        PrintDebug("Permission result: " + permission);
+    }
+
+    private void TryIosExportBIN()
+    {
+        // Create a dummy binary file, stl file contains unusable data
+        string filePath = Path.Combine(Application.temporaryCachePath, "test.stl");
+        File.WriteAllBytes(filePath, new byte[] { 0, 1, 2, 3, 45, 200, 6 });
+
+        // Export the file
+        NativeFilePicker.Permission permission = NativeFilePicker.ExportFile(filePath, (success) => PrintDebug("File exported: " + success));
 
         PrintDebug("Permission result: " + permission);
     }
