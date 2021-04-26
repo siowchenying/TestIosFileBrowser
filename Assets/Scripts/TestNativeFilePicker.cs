@@ -12,6 +12,8 @@ public class TestNativeFilePicker : MonoBehaviour
     public Button uiButtonTestSingle;
     public Button uiButtonTestMultiple;
 
+    public TMP_InputField uiInputUTI;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -44,6 +46,16 @@ public class TestNativeFilePicker : MonoBehaviour
         }
 
         string importFilePath = null;
+        string[] extensions = new string[1];
+        if (uiInputUTI.text.Length > 1)
+        {
+            extensions[0] = uiInputUTI.text;
+        }
+        else
+        {
+            extensions[0] = "public.item";
+        }
+
         // Pick any file
         NativeFilePicker.Permission permission = NativeFilePicker.PickFile((path) =>
         {
@@ -56,7 +68,7 @@ public class TestNativeFilePicker : MonoBehaviour
                 PrintDebug("Picked file: " + path);
                 importFilePath = path;
             }
-        }, new string[] { "public.item" });
+        }, extensions);
 
         PrintDebug("Permission result: " + permission);
         PrintDebug("Does file exist??: " + File.Exists(importFilePath));
@@ -82,6 +94,15 @@ public class TestNativeFilePicker : MonoBehaviour
             return;
         }
 
+        string[] extensions = new string[1];
+        if (uiInputUTI.text.Length > 1)
+        {
+            extensions[0] = uiInputUTI.text;
+        }
+        else
+        {
+            extensions[0] = "public.item";
+        }
         // Pick multiple files
         NativeFilePicker.Permission permission = NativeFilePicker.PickMultipleFiles((paths) =>
         {
@@ -97,7 +118,7 @@ public class TestNativeFilePicker : MonoBehaviour
                 }
                     
             }
-        }, new string[] { "public.item" });
+        }, extensions);
 
         PrintDebug("Permission result: " + permission);
     }
