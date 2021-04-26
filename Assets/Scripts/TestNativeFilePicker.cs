@@ -59,6 +59,7 @@ public class TestNativeFilePicker : MonoBehaviour
         }, new string[] { "public.item" });
 
         PrintDebug("Permission result: " + permission);
+        PrintDebug("Does file exist??: " + File.Exists(importFilePath));
         
         if(importFilePath != null)
         {
